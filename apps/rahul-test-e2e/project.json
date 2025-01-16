@@ -1,0 +1,10 @@
+{
+  "name": "rahul-test-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/rahul-test-e2e/src",
+  "tags": [],
+  "implicitDependencies": ["rahul-test"],
+  "// targets": "to see all targets run: nx show project rahul-test-e2e --web",
+  "targets": {}
+}
