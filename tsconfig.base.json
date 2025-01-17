@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@rahul/ag-grid": ["libs/ag-grid/src/index.ts"],
-      "@rahul/arc-gis": ["libs/arc-gis/src/index.ts"]
+      "@rahul/arc-gis": ["libs/arc-gis/src/index.ts"],
+      "@rahul/pet-api": ["libs/open-api/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
