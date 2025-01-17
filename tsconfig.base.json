@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@rahul/ag-grid": ["libs/ag-grid/src/index.ts"],
+      "@rahul/arc-gis": ["libs/arc-gis/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
