@@ -1,13 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import {
-  AllCommunityModule,
-  ModuleRegistry,
-  type ColDef,
+  AllCommunityModule, ModuleRegistry, PaginationModule, type ColDef
 } from 'ag-grid-community';
 
-ModuleRegistry.registerModules([AllCommunityModule]);
+ModuleRegistry.registerModules([AllCommunityModule, PaginationModule]);
 
 @Component({
   selector: 'lib-ag-grid-poc',
@@ -16,18 +14,17 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   styleUrl: './ag-grid-poc.component.scss',
 })
 export class AgGridPocComponent {
-  // Row Data: The data to be displayed.
-  rowData = [
-    { make: 'Tesla', model: 'Model Y', price: 64950, electric: true },
-    { make: 'Ford', model: 'F-Series', price: 33850, electric: false },
-    { make: 'Toyota', model: 'Corolla', price: 29600, electric: false },
-  ];
+  todoInfo = input<any>();
 
   // Column Definitions: Defines the columns to be displayed.
   colDefs: ColDef[] = [
-    { field: 'make' },
-    { field: 'model' },
-    { field: 'price' },
-    { field: 'electric' },
+    { field: 'id', headerName: 'Todo Id', sort: 'asc', minWidth: 40 },
+    { field: 'title', headerName: 'Todo Title', minWidth: 180 },
+    { field: 'userId', headerName: 'User', minWidth: 40 },
+    { field: 'completed', headerName: 'Todo Status', minWidth: 40 },
   ];
+
+  defaultColDef: ColDef = {
+    filter: true,
+  };
 }

@@ -1,9 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AgGridPocComponent } from '@rahul/ag-grid';
 import { ArcGisPocComponent } from '@rahul/arc-gis';
 import { AngularSplitModule } from 'angular-split';
+import { AgGridDataService } from './services';
+import { Todo } from './models';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   imports: [
@@ -11,6 +14,7 @@ import { AngularSplitModule } from 'angular-split';
     ArcGisPocComponent,
     RouterModule,
     AngularSplitModule,
+    CommonModule
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,14 +22,10 @@ import { AngularSplitModule } from 'angular-split';
 })
 export class AppComponent {
   title = 'rahul-test';
+  agTodoInfo$: Observable<Todo[]>;
 
-  constructor(private readonly httpClient: HttpClient){
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'responseType': 'text'
-      }),
-    };
-    this.httpClient.get('test', {responseType: 'json'}).subscribe(console.log);
+
+  constructor(private readonly agGridDataService: AgGridDataService){
+    this.agTodoInfo$ = this.agGridDataService.passTodoinfo();
   }
 }

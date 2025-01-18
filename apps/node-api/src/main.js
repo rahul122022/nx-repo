@@ -1,8 +1,8 @@
 import express from 'express';
-import * as cors from 'cors';
+// import * as cors from 'cors';
 const app = express();
 
-app.use(cors());
+// app.use(cors());
 
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;

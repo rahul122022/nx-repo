@@ -3,8 +3,8 @@
 <div class="splitter-conatiner">
   <as-split [direction]="'horizontal'">
     <as-split-area>
-      <div>Grid Container </div>
-      <lib-ag-grid-poc></lib-ag-grid-poc>
+      <div>Todo Container </div>
+      <lib-ag-grid-poc [todoInfo]="agTodoInfo$ | async"></lib-ag-grid-poc>
     </as-split-area>
     <as-split-area>
       <div>Chart Container </div>
