@@ -1,3 +1,4 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AgGridPocComponent } from '@rahul/ag-grid';
@@ -17,4 +18,14 @@ import { AngularSplitModule } from 'angular-split';
 })
 export class AppComponent {
   title = 'rahul-test';
+
+  constructor(private readonly httpClient: HttpClient){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'responseType': 'text'
+      }),
+    };
+    this.httpClient.get('test', {responseType: 'json'}).subscribe(console.log);
+  }
 }
