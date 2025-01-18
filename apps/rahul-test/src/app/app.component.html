@@ -4,7 +4,8 @@
   <as-split [direction]="'horizontal'">
     <as-split-area>
       <div>Todo Container </div>
-      <lib-ag-grid-poc [todoInfo]="agTodoInfo$ | async"></lib-ag-grid-poc>
+      <!-- <lib-ag-grid-poc [todoInfo]="agTodoInfo$ | async"></lib-ag-grid-poc> -->
+      <lib-ag-grid-poc [todoInfo]="agMultiInfo$ | async"></lib-ag-grid-poc>
     </as-split-area>
     <as-split-area>
       <div>Chart Container </div>
