@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { combineLatest, firstValueFrom, map, Observable, tap } from 'rxjs';
+import { combineLatest, map, Observable, tap } from 'rxjs';
 import { Todo, User, Comment } from '../models';
 
 @Injectable({
@@ -26,12 +26,10 @@ export class AgGridDataService {
   passMergedinfo(): Observable<User & { comments: Comment[] }>[] {
     return combineLatest([this.passUsersInfo(), this.passCommentsInfo()]).pipe(
       map(([users, comments]) =>
-        users.map(
-          (user) => ({
-            ...user,
-            comments: comments.filter((comment) => comment.userId === user.id),
-          })
-        )
+        users.map((user) => ({
+          ...user,
+          comments: comments.filter((comment) => comment.userId === user.id),
+        }))
       ),
       tap(console.log)
     ) as unknown as Observable<User & { comments: Comment[] }>[];

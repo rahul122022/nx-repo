@@ -2,27 +2,10 @@ import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AgGridAngular } from 'ag-grid-angular'; // Angular Data Grid Component
 import {
-  AllCommunityModule,
-  IDetailCellRendererParams,
-  ModuleRegistry,
-  PaginationModule,
-  type ColDef,
+  AllCommunityModule, ModuleRegistry, PaginationModule, type ColDef
 } from 'ag-grid-community';
-import {
-  ColumnMenuModule,
-  ColumnsToolPanelModule,
-  ContextMenuModule,
-  MasterDetailModule,
-} from 'ag-grid-enterprise';
 
-ModuleRegistry.registerModules([
-  AllCommunityModule,
-  PaginationModule,
-  MasterDetailModule,
-  ColumnMenuModule,
-  ColumnsToolPanelModule,
-  ContextMenuModule,
-]);
+ModuleRegistry.registerModules([AllCommunityModule, PaginationModule]);
 
 @Component({
   selector: 'lib-ag-grid-poc',
@@ -35,53 +18,14 @@ export class AgGridPocComponent {
 
   // Column Definitions: Defines the columns to be displayed.
   colDefs: ColDef[] = [
-    { field: 'userId', hide: true, sort: 'asc' },
-    {
-      field: 'firstname',
-      headerName: 'First Name',
-      minWidth: 100,
-      cellRenderer: 'agGroupCellRenderer',
-    },
-    { field: 'lastname', headerName: 'Last Name', minWidth: 100 },
-    { field: 'email', headerName: 'Email', minWidth: 120 },
-    { field: 'login.username', headerName: 'User Name', minWidth: 40 },
-    {
-      field: 'address',
-      headerName: 'Address',
-      valueFormatter: ({
-        data: {
-          address: { suite, street, city, zipcode },
-        },
-      }) => `${suite}, ${street}, ${city}, ${zipcode}`,
-    },
+    { field: 'userId', headerName: 'User', minWidth: 40, sort: 'asc' },
+    { field: 'title', headerName: 'Todo Title', minWidth: 180 },
+    { field: 'id', headerName: 'Todo Id', minWidth: 40 },
+    { field: 'completed', headerName: 'Todo Status', minWidth: 40 },
   ];
 
   defaultColDef: ColDef = {
     filter: true,
-  };
-  constructor() {
-    console.log(this.todoInfo());
-  }
-
-  groupDefaultExpanded = 0;
-
-  detailCellRendererParams: any = {
-    detailGridOptions: {
-      columnDefs: [
-        { field: 'title', headerName: 'Title' },
-        { field: 'content', headerName: 'Content' },
-        { field: 'image', headerName: 'Image' },
-        { field: 'status', headerName: 'Status' },
-      ],
-      defaultColDef: {
-        flex: 1,
-      },
-
-      detailRowHeight: 240,
-    },
-    getDetailRowData: (params: any) => {
-      console.log('getDetailRowData', params);
-      params.successCallback(params.data.comments);
-    },
+    
   };
 }
