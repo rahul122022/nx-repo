@@ -17,6 +17,7 @@
     "paths": {
       "@rahul/ag-grid": ["libs/ag-grid/src/index.ts"],
       "@rahul/arc-gis": ["libs/arc-gis/src/index.ts"],
+      "@rahul/charts": ["libs/charts-poc/src/index.ts"],
       "@rahul/pet-api": ["libs/open-api/src/index.ts"]
     }
   },
