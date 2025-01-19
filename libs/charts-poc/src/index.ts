@@ -1,1 +1,1 @@
-export * from './lib/d3-chart/d3-chart.component';
+export * from './lib/line-chart/line-chart.component';

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'lib-d3-chart',
   imports: [CommonModule],
-  templateUrl: './d3-chart.component.html',
-  styleUrl: './d3-chart.component.scss',
+  templateUrl: './line-chart.component.html',
+  styleUrl: './line-chart.component.scss',
 })
 export class D3ChartComponent {}

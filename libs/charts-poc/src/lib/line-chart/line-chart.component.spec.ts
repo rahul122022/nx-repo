@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { D3ChartComponent } from './d3-chart.component';
+import { D3ChartComponent } from './line-chart.component';
 
 describe('D3ChartComponent', () => {
   let component: D3ChartComponent;
