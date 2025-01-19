@@ -1,0 +1,10 @@
+<ag-grid-angular
+  [pagination]="true"
+  style="height: 100vh"
+  [rowData]="userInfo()"
+  [columnDefs]="colDefs"
+  [defaultColDef]="defaultColDef"
+  [masterDetail]="true"
+  [detailCellRendererParams]="detailCellRendererParams"
+  [groupDefaultExpanded]="groupDefaultExpanded"
+/>

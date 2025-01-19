@@ -1,5 +1,8 @@
 <ag-grid-angular
-[rowData]="rowData"
-[columnDefs]="colDefs" 
-style="width: 100vw; height: 100vh;" />
-<!-- <div>I am from libs</div> -->
+  [pagination]="true"
+  style="height: 100vh"
+  [rowData]="todoInfo()"
+  [columnDefs]="colDefs"
+  [defaultColDef]="defaultColDef"
+  [autoSizePadding]="20"
+/>

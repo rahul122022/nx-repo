@@ -3,11 +3,19 @@
 <div class="splitter-conatiner">
   <as-split [direction]="'horizontal'">
     <as-split-area>
-      <div>Grid Container </div>
-      <lib-ag-grid-poc></lib-ag-grid-poc>
+      <as-split [direction]="'vertical'">
+        <as-split-area>
+          <h2>Todo Container</h2>
+          <lib-ag-grid-poc [todoInfo]="agTodoInfo$ | async"></lib-ag-grid-poc>
+        </as-split-area>
+        <as-split-area>
+          <h2>User Container</h2>
+          <lib-ag-grid-multi [userInfo]="agMultiInfo$ | async"></lib-ag-grid-multi>
+        </as-split-area>
+      </as-split>
     </as-split-area>
     <as-split-area>
-      <div>Chart Container </div>
+      <div>Chart Container</div>
       <lib-arc-gis-poc></lib-arc-gis-poc>
     </as-split-area>
   </as-split>
