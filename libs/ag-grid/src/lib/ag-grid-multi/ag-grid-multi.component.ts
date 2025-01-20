@@ -24,7 +24,7 @@ ModuleRegistry.registerModules([
   selector: 'lib-ag-grid-multi',
   imports: [AgGridModule],
   templateUrl: './ag-grid-multi.component.html',
-  styleUrl: './ag-grid-multi.component.css',
+  styleUrl: './ag-grid-multi.component.scss',
 })
 export class AgGridMultiComponent {
   userInfo = input<any>();

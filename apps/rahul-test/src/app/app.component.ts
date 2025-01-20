@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AgGridMultiComponent, AgGridPocComponent } from '@rahul/ag-grid';
-import { ArcGisPocComponent } from '@rahul/arc-gis';
 import { AngularSplitModule } from 'angular-split';
 import { AgGridDataService } from './services';
 import { Todo, User } from './models';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { D3LineChartComponent } from '@rahul/charts';
 
 @Component({
   imports: [
     AgGridPocComponent,
-    ArcGisPocComponent,
+    D3LineChartComponent,
     RouterModule,
     AngularSplitModule,
     CommonModule,
