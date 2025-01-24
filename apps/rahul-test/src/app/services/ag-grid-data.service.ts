@@ -31,7 +31,7 @@ export class AgGridDataService {
           comments: comments.filter((comment) => comment.userId === user.id),
         }))
       ),
-      tap(console.log)
+      // tap(console.log)
     ) as unknown as Observable<User & { comments: Comment[] }>[];
   }
 }

@@ -2,14 +2,14 @@ import {
   AfterViewInit,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 
 import EsriMap from '@arcgis/core/Map';
 import EsriMapView from '@arcgis/core/views/MapView';
-import Track from "@arcgis/core/widgets/Track";
-import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
-
+import Track from '@arcgis/core/widgets/Track';
+import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 
 @Component({
   selector: 'lib-arc-gis-poc',
@@ -17,30 +17,34 @@ import * as reactiveUtils from "@arcgis/core/core/reactiveUtils";
   styleUrl: './arc-gis-poc.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ArcGisPocComponent implements AfterViewInit {
+export class ArcGisPocComponent implements OnInit {
   @ViewChild('eventMap', { static: true }) private mapViewEl: any;
+  baseMapInput = ['topo-vector', 'gray-vector', 'streets-vector', 'streets-night-vector', 'satellite' ];
+  mapProperties = {
+    basemap: 'topo-vector',
+  };
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
+    this.changeBaseMap('topo-vector');
+  }
+
+  changeBaseMap(baseMap: string) {
+    this.mapProperties = {...this.mapProperties, basemap: baseMap};
     this.initializeMap();
   }
 
   initializeMap() {
-    const mapProperties = {
-      basemap: 'topo-vector',
-    };
-
-    const map = new EsriMap(mapProperties);
+    const map = new EsriMap(this.mapProperties);
     const mapViewProperties = {
+      map: map,
       container: this.mapViewEl.nativeElement,
       center: [-101.41, 40.78],
       // center: [21.7679, 78.8718],
-      zoom: 7,
       navigation: {
         gamepad: {
           enabled: false,
         },
       },
-      map: map,
       popup: {
         collapseEnabled: false,
         autoOpenEnabled: false,
@@ -56,9 +60,9 @@ export class ArcGisPocComponent implements AfterViewInit {
     };
 
     const mapView: any = new EsriMapView(mapViewProperties);
-// adding track 
+    // adding track
     const tracks = new Track({
-      view: mapView
+      view: mapView,
     });
     mapView.ui.add(tracks, 'top-left');
 
