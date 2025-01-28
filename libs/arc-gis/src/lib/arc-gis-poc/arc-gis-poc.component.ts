@@ -132,43 +132,19 @@ export class ArcGisPocComponent implements OnInit {
           minValue: 0,
           maxValue: 99,
           label: 'Low',
-          symbol: {
-            type: 'simple-marker',
-            color: 'green',
-            size: 8,
-            outline: {
-              color: 'black',
-              width: 0.5,
-            },
-          },
+          symbol: this.addSymbol('simple-marker', 'green', 8, 'black', 0.5),
         },
         {
           minValue: 100,
           maxValue: 199,
           label: 'Moderate',
-          symbol: {
-            type: 'simple-marker',
-            color: 'yellow',
-            size: 10,
-            outline: {
-              color: 'black',
-              width: 0.5,
-            },
-          },
+          symbol: this.addSymbol('simple-marker', 'yellow', 10, 'black', 0.5),
         },
         {
           minValue: 200,
           maxValue: 999,
           label: 'High',
-          symbol: {
-            type: 'simple-marker',
-            color: 'red',
-            size: 12,
-            outline: {
-              color: 'black',
-              width: 0.5,
-            },
-          },
+          symbol: this.addSymbol('simple-marker', 'red', 12, 'black', 0.5),
         },
       ],
     } as unknown as ClassBreaksRendererProperties);
@@ -285,5 +261,23 @@ export class ArcGisPocComponent implements OnInit {
         break;
       }
     }
+  }
+
+  addSymbol(
+    type: string,
+    color: string,
+    size: number,
+    oColor: string,
+    width: number
+  ) {
+    return {
+      type,
+      color,
+      size,
+      outline: {
+        color: oColor,
+        width,
+      },
+    };
   }
 }
