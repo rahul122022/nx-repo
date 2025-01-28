@@ -27,7 +27,7 @@ import MapView from '@arcgis/core/views/MapView';
 @Component({
   selector: 'lib-arc-gis-poc',
   templateUrl: './arc-gis-poc.component.html',
-  styleUrl: './arc-gis-poc.component.scss',
+  styleUrls: ['./arc-gis-poc.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ArcGisPocComponent implements OnInit {
@@ -89,6 +89,10 @@ export class ArcGisPocComponent implements OnInit {
             longitude: point.leakLongitude,
             latitude: point.leakLatitude,
           }),
+          attributes: {
+            ObjectID: point.accountID, // Account ID as ObjectID
+            uV_mLevel: point.uV_mLevel, // UV measurement level
+          },
         })
     );
 
@@ -101,9 +105,9 @@ export class ArcGisPocComponent implements OnInit {
 
     const renderer = new ClassBreaksRenderer({
       legendOptions: {
-        title: 'level of uV_mLevel',
+        title: 'Level of uV_mLevel',
       },
-      field: 'uV_mLevel',
+      field: 'uV_mLevel', // Use uV_mLevel field for classification
       defaultSymbol: {
         type: 'simple-marker',
         color: 'gray',
@@ -224,8 +228,14 @@ export class ArcGisPocComponent implements OnInit {
       // spatialReference: { wkid: 4326 },
       // featureReduction: clusterConfig,
       popupTemplate: {
-        title: '{NAME}', // Assuming there's a field named 'NAME'
-        content: 'UV Measurement Level: {uV_mLevel}',
+        title: 'Account: {account} | House: {house}', // Display account and house
+        content: `
+          <strong>Leak Address:</strong> {leakAddress}<br/>
+          <strong>UV Level:</strong> {uV_mLevel} uV/m<br/>
+          <strong>Date Found:</strong> {date_found}<br/>
+          <strong>Device:</strong> <a href="{device}" target="_blank">{device}</a><br/>
+          <a href="{details}" target="_blank">Get Details</a>
+        `,
       },
       renderer: renderer,
     });
