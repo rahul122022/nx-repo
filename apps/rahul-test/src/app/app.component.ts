@@ -33,7 +33,7 @@ export class AppComponent {
     this.agUsersInfo$ = this.agGridDataService.passUsersInfo();
     this.agMultiInfo$ = this.agGridDataService.passMergedinfo();
 
-    this.petService.getPetById(1).pipe(tap(console.log)).subscribe();
+    this.petService.getPetById(1).pipe().subscribe();
     // this.petService.findPetsByTags(['']).pipe(tap(console.log)).subscribe();
   }
 }
