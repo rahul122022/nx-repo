@@ -92,6 +92,15 @@ export class ArcGisPocComponent implements OnInit {
           attributes: {
             ObjectID: point.accountID, // Account ID as ObjectID
             uV_mLevel: point.uV_mLevel, // UV measurement level
+            account: point.account,
+            house: point.house,
+            area: point.area,
+            leakAddress: point.leakAddress,
+            level: point.level,
+            date_found: point.date_found,
+            status: point.status,
+            device: point.device,
+            details: point.details,
           },
         })
     );
@@ -225,8 +234,6 @@ export class ArcGisPocComponent implements OnInit {
       ],
       objectIdField: 'ObjectID',
       geometryType: 'point',
-      // spatialReference: { wkid: 4326 },
-      // featureReduction: clusterConfig,
       popupTemplate: {
         title: 'Account: {account} | House: {house}', // Display account and house
         content: `
@@ -245,8 +252,6 @@ export class ArcGisPocComponent implements OnInit {
     featureLayer.queryExtent().then((extent) => {
       console.log('Extent: ', extent);
     });
-
-    // console.log('map data', map)
   }
 
   // Add Widgets
