@@ -9,7 +9,20 @@ import {
 import EsriMap from '@arcgis/core/Map';
 import EsriMapView from '@arcgis/core/views/MapView';
 import Track from '@arcgis/core/widgets/Track';
+import Search from '@arcgis/core/widgets/Search';
+import Point from '@arcgis/core/geometry/Point';
+import Graphic from '@arcgis/core/Graphic';
+import ClassBreaksRenderer from '@arcgis/core/renderers/ClassBreaksRenderer';
+import ClassBreaksRendererProperties from '@arcgis/core/renderers/ClassBreaksRenderer';
+import Legend from '@arcgis/core/widgets/Legend';
+import Expand from '@arcgis/core/widgets/Expand';
+
+import GraphicsLayer from '@arcgis/core/layers/GraphicsLayer';
+import GraphicProperties from '@arcgis/core/layers/GraphicsLayer';
+import FeatureLayer from '@arcgis/core/layers/FeatureLayer';
 import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
+import { MAP_INFO } from './map-info';
+import MapView from '@arcgis/core/views/MapView';
 
 @Component({
   selector: 'lib-arc-gis-poc',
@@ -19,7 +32,13 @@ import * as reactiveUtils from '@arcgis/core/core/reactiveUtils';
 })
 export class ArcGisPocComponent implements OnInit {
   @ViewChild('eventMap', { static: true }) private mapViewEl: any;
-  baseMapInput = ['topo-vector', 'gray-vector', 'streets-vector', 'streets-night-vector', 'satellite' ];
+  baseMapInput = [
+    'topo-vector',
+    'gray-vector',
+    'streets-vector',
+    'streets-night-vector',
+    'satellite',
+  ];
   mapProperties = {
     basemap: 'topo-vector',
   };
@@ -29,7 +48,7 @@ export class ArcGisPocComponent implements OnInit {
   }
 
   changeBaseMap(baseMap: string) {
-    this.mapProperties = {...this.mapProperties, basemap: baseMap};
+    this.mapProperties = { ...this.mapProperties, basemap: baseMap };
     this.initializeMap();
   }
 
@@ -39,7 +58,7 @@ export class ArcGisPocComponent implements OnInit {
       map: map,
       container: this.mapViewEl.nativeElement,
       center: [-101.41, 40.78],
-      // center: [21.7679, 78.8718],
+      zoom: 7,
       navigation: {
         gamepad: {
           enabled: false,
@@ -50,28 +69,206 @@ export class ArcGisPocComponent implements OnInit {
         autoOpenEnabled: false,
         dockEnabled: false,
         dockOptions: {
-          // Disables the dock button from the popup
           buttonEnabled: true,
-          // Ignore the default sizes that trigger responsive docking
           breakpoint: false,
           position: 'bottom-center',
         },
       },
     };
 
-    const mapView: any = new EsriMapView(mapViewProperties);
-    // adding track
-    const tracks = new Track({
-      view: mapView,
-    });
-    mapView.ui.add(tracks, 'top-left');
+    const mapView: MapView = new EsriMapView(mapViewProperties);
 
-    // reactiveUtils.whenOnce(mapView, "ready"). then() => {};
+    this.addWidgets('Search', mapView, 'bottom-right');
+    this.addWidgets('Track', mapView, 'top-left');
+    this.addWidgets('Legend', mapView, 'top-right');
+
+    const g = MAP_INFO.map(
+      (point) =>
+        new Graphic({
+          geometry: new Point({
+            longitude: point.leakLongitude,
+            latitude: point.leakLatitude,
+          }),
+        })
+    );
+
+    const clusterConfig: any = {
+      type: 'cluster',
+      clusterRadius: '100px',
+      clusterMinSize: '24px',
+      clusterMaxSize: '60px',
+    };
+
+    const renderer = new ClassBreaksRenderer({
+      legendOptions: {
+        title: 'level of uV_mLevel',
+      },
+      field: 'uV_mLevel',
+      defaultSymbol: {
+        type: 'simple-marker',
+        color: 'gray',
+        size: 6,
+        outline: {
+          color: 'black',
+          width: 0.5,
+        },
+      },
+      defaultLabel: 'no data',
+      classBreakInfos: [
+        {
+          minValue: 0,
+          maxValue: 99,
+          label: 'Low',
+          symbol: {
+            type: 'simple-marker',
+            color: 'green',
+            size: 8,
+            outline: {
+              color: 'black',
+              width: 0.5,
+            },
+          },
+        },
+        {
+          minValue: 100,
+          maxValue: 199,
+          label: 'Moderate',
+          symbol: {
+            type: 'simple-marker',
+            color: 'yellow',
+            size: 10,
+            outline: {
+              color: 'black',
+              width: 0.5,
+            },
+          },
+        },
+        {
+          minValue: 200,
+          maxValue: 999,
+          label: 'High',
+          symbol: {
+            type: 'simple-marker',
+            color: 'red',
+            size: 12,
+            outline: {
+              color: 'black',
+              width: 0.5,
+            },
+          },
+        },
+      ],
+    } as unknown as ClassBreaksRendererProperties);
+
+    const featureLayer = new FeatureLayer({
+      source: g,
+      fields: [
+        {
+          name: 'ObjectID',
+          alias: 'ObjectID',
+          type: 'oid',
+        },
+        {
+          name: 'uV_mLevel',
+          alias: 'uV_mLevel',
+          type: 'double',
+        },
+        {
+          name: 'account',
+          alias: 'account',
+          type: 'string',
+        },
+        {
+          name: 'house',
+          alias: 'house',
+          type: 'string',
+        },
+        {
+          name: 'area',
+          alias: 'area',
+          type: 'string',
+        },
+        {
+          name: 'leakAddress',
+          alias: 'leakAddress',
+          type: 'string',
+        },
+        {
+          name: 'level',
+          alias: 'level',
+          type: 'string',
+        },
+        {
+          name: 'date_found',
+          alias: 'date_found',
+          type: 'string',
+        },
+        {
+          name: 'status',
+          alias: 'status',
+          type: 'string',
+        },
+        {
+          name: 'device',
+          alias: 'device',
+          type: 'string',
+        },
+        {
+          name: 'details',
+          alias: 'details',
+          type: 'string',
+        },
+      ],
+      objectIdField: 'ObjectID',
+      geometryType: 'point',
+      // spatialReference: { wkid: 4326 },
+      // featureReduction: clusterConfig,
+      popupTemplate: {
+        title: '{NAME}', // Assuming there's a field named 'NAME'
+        content: 'UV Measurement Level: {uV_mLevel}',
+      },
+      renderer: renderer,
+    });
+
+    map.add(featureLayer);
+
+    featureLayer.queryExtent().then((extent) => {
+      console.log('Extent: ', extent);
+    });
+
+    // console.log('map data', map)
   }
 
-  // arcgisViewChange(event: CustomEvent) {
-  //   const { center, zoom } = event.target;
-  //   console.log("Center (lon/lat): ", `${center.longitude}, ${center.latitude}`);
-  //   console.log("Zoom: ", zoom);
-  // }
+  // Add Widgets
+  addWidgets(wType: string, mapView: MapView, position: string) {
+    switch (wType) {
+      case 'Search': {
+        mapView.ui.add(
+          new Search({
+            view: mapView,
+          }),
+          position
+        );
+        break;
+      }
+      case 'Track': {
+        mapView.ui.add(
+          new Track({
+            view: mapView,
+          }),
+          position
+        );
+        break;
+      }
+      case 'Legend': {
+        mapView.ui.add(
+          new Legend({
+            view: mapView,
+          }),
+          position
+        );
+        break;
+      }
+    }
+  }
 }
